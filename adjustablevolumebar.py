@@ -1,24 +1,42 @@
 from gpiozero import *
+up=Button(17)
+dwn=Button(27)
+
 import math
 
-def roundup(x): #Will be used in a future update
+def roundup(x):
     return math.ceil(x / 10.0) * 10
 import rpi_lcd as lcd
 import alsaaudio
 control=alsaaudio.Mixer()
-control.setvolume(0)#Reset volume to 1
-up=Button(17)
-dwn=Button(27)
-vol=0
+currentvol=roundup(control.getvolume()[0])
 
+if currentvol >= 80:
+    currentvol=80
+vol=currentvol
+count=0
 screen=lcd.LCD()
+MAX_SCREEN_DIGITS=16
+def getRemaining(volume: int):
+    global MAX_SCREEN_DIGITSs
+    getremaining={0:0, 10:2, 20:4, 30:6, 40:8, 50:10, 60:12, 70:14, 80:16}
+    return MAX_SCREEN_DIGITS-getremaining[volume]
 
+
+def getCurrentVolume(volume: int):
+    global count
+    getremaining={0:0, 10:2, 20:4, 30:6, 40:8, 50:10, 60:12, 70:14, 80:16}
+    getvolumes={0:0*"#", 10:2*"#", 20:4*"#", 30:6*"#", 40:8*"#", 50:10*"#", 60:12*"#", 70:14*"#", 80:16*"#"}
+    count=getremaining[volume]
+    if volume != 0:
+        return getvolumes[volume]
+    elif volume == 0:
+        return getvolumes[volume]
 
 screen.text(f"Volume: {vol}", 1)
-MAX_SCREEN_DIGITS=16
-count=0
-remaining=MAX_SCREEN_DIGITS-count
-screen.text(count*"#"+remaining*".", 2)
+
+remaining=getRemaining(currentvol)
+screen.text(getCurrentVolume(currentvol)+remaining*".", 2)
 
 MAX_VOL=80
 
@@ -55,7 +73,4 @@ while True:
         screen.clear()
         print("\n\nStopped")
         import sys
-        sys.exit()
-
-
-
+        sys.exit() # End of prog
