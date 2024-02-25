@@ -1,7 +1,7 @@
 from gpiozero import *
 import math
 
-def roundup(x):
+def roundup(x): #Will be used in a future update
     return math.ceil(x / 10.0) * 10
 import rpi_lcd as lcd
 import alsaaudio
