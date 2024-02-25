@@ -18,7 +18,7 @@ count=0
 screen=lcd.LCD()
 MAX_SCREEN_DIGITS=16
 def getRemaining(volume: int):
-    global MAX_SCREEN_DIGITSs
+    global MAX_SCREEN_DIGITS
     getremaining={0:0, 10:2, 20:4, 30:6, 40:8, 50:10, 60:12, 70:14, 80:16}
     return MAX_SCREEN_DIGITS-getremaining[volume]
 
